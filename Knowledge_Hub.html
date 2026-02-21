@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Knowledge Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcfcfd;
+        }
+        .step-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 0;
+        }
+        .step-line:last-child::before {
+            display: none;
+        }
+        .resource-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .resource-btn:hover {
+            transform: translateX(4px);
+            background-color: #f8fafc;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="py-12 px-4">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <header class="mb-16 border-b border-slate-100 pb-8">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">AI Knowledge Roadmap</h1>
+            <p class="text-slate-500 text-lg max-w-2xl">The complete 16-step sequential path from your knowledge hub. No topics or resources omitted.</p>
+        </header>
+
+        <div id="roadmapList" class="space-y-8">
+            <!-- Items will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Exhaustive data set strictly following all rows in the uploaded CSV.
+         */
+        const aiData = [
+            {
+                concept: "Prompt Engineering",
+                pattern: "System prompts + few-shot examples",
+                outcome: "Build controlled AI assistant",
+                resources: [
+                    { name: "OpenAI Prompting Guide (Best practices)", url: "https://platform.openai.com/docs/guides/prompt-engineering" },
+                    { name: "YouTube: Prompt Engineering Full Course – freeCodeCamp", url: "https://www.youtube.com/watch?v=dOxUroR57xs" },
+                    { name: "Anthropic Prompt Guide (Use examples & roles)", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering" },
+                    { name: "DeepLearning.ai: Prompt Engineering for Developers", url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/" }
+                ]
+            },
+            {
+                concept: "Structured Outputs / Function Calling",
+                pattern: "JSON schema outputs + tool calling",
+                outcome: "Extract structured data reliably",
+                resources: [
+                    { name: "OpenAI Function Calling (Tools section)", url: "https://platform.openai.com/docs/guides/function-calling" },
+                    { name: "OpenAI Guide: Structured Outputs", url: "https://developers.openai.com/api/docs/guides/structured-outputs" },
+                    { name: "YouTube: Function Calling Explained (James Briggs)", url: "https://www.youtube.com/watch?v=Q0y3N7d7Z0E" },
+                    { name: "Blog: Structured Outputs for LLMs", url: "https://www.pinecone.io/learn/series/langchain/structured-output/" }
+                ]
+            },
+            {
+                concept: "Embeddings",
+                pattern: "Convert text → vectors for similarity",
+                outcome: "Semantic search engine",
+                resources: [
+                    { name: "OpenAI Embeddings Guide", url: "https://platform.openai.com/docs/guides/embeddings" },
+                    { name: "YouTube: Embeddings Simply Explained", url: "https://www.youtube.com/watch?v=yPfU_GzO00U" },
+                    { name: "Blog: What are Embeddings? (Deep Dive)", url: "https://vickiboykis.com/2023/10/23/what-are-embeddings/" }
+                ]
+            },
+            {
+                concept: "Vector Databases",
+                pattern: "Storing and querying high-dimensional vectors",
+                outcome: "Persistent memory for AI",
+                resources: [
+                    { name: "Pinecone: What is a Vector Database?", url: "https://www.pinecone.io/learn/vector-database/" },
+                    { name: "YouTube: Vector Databases Explained", url: "https://www.youtube.com/watch?v=klTvEwg3oJ4" },
+                    { name: "Milvus: Vector Database 101", url: "https://milvus.io/docs/overview.md" }
+                ]
+            },
+            {
+                concept: "RAG (Retrieval-Augmented Generation)",
+                pattern: "Retrieve context + inject into prompt",
+                outcome: "Chat with your custom data",
+                resources: [
+                    { name: "Pinecone: What is RAG?", url: "https://www.pinecone.io/learn/retrieval-augmented-generation/" },
+                    { name: "YouTube: RAG from Scratch (LangChain)", url: "https://www.youtube.com/watch?v=wd7UZ4F2nrk" },
+                    { name: "LangChain Documentation: RAG QA", url: "https://python.langchain.com/docs/use_cases/question_answering/" }
+                ]
+            },
+            {
+                concept: "Tool / API Integration",
+                pattern: "Connecting LLMs to external tools and APIs",
+                outcome: "Dynamic AI capabilities",
+                resources: [
+                    { name: "LangChain: Tools and Toolkits", url: "https://python.langchain.com/docs/modules/agents/tools/" },
+                    { name: "YouTube: Integrating APIs with LangChain", url: "https://www.youtube.com/watch?v=9S63m7-O4Y8" },
+                    { name: "OpenAI: Actions in GPTs", url: "https://platform.openai.com/docs/actions" }
+                ]
+            },
+            {
+                concept: "Agents & Orchestration",
+                pattern: "Loops + Reasoning (ReAct) + Memory",
+                outcome: "Autonomous task execution",
+                resources: [
+                    { name: "Blog: LLM Powered Autonomous Agents", url: "https://lilianweng.github.io/posts/2023-06-23-agent/" },
+                    { name: "CrewAI Documentation", url: "https://docs.crewai.com/" },
+                    { name: "YouTube: Intro to AI Agents & Workflows", url: "https://www.youtube.com/watch?v=sqYpA-7lS6s" },
+                    { name: "LangGraph: Multi-Agent Systems", url: "https://langchain-ai.github.io/langgraph/" }
+                ]
+            },
+            {
+                concept: "System Design for AI",
+                pattern: "Architecting scalable LLM applications",
+                outcome: "Robust AI infrastructure",
+                resources: [
+                    { name: "Blog: Designing LLM Systems", url: "https://huyenchip.com/2023/04/11/llm-engineering.html" },
+                    { name: "YouTube: AI System Design Interview Guide", url: "https://www.youtube.com/watch?v=V7W7XvD7G0I" },
+                    { name: "Full Stack LLM Application Architecture", url: "https://www.comet.com/site/blog/llm-application-architecture/" }
+                ]
+            },
+            {
+                concept: "Evaluation & Guardrails",
+                pattern: "RAGAS + LLM-as-a-judge + PII filters",
+                outcome: "Safe, accurate production apps",
+                resources: [
+                    { name: "Guardrails AI Documentation", url: "https://docs.guardrailsai.com/" },
+                    { name: "YouTube: LLM Guardrails Explained", url: "https://www.youtube.com/watch?v=1aM1KYvl4Dw" },
+                    { name: "Blog: Reducing LLM Hallucinations", url: "https://www.pinecone.io/learn/hallucinations/" },
+                    { name: "Ragas: Evaluation for RAG", url: "https://docs.ragas.io/" }
+                ]
+            },
+            {
+                concept: "Latency & Cost Optimization",
+                pattern: "Model selection + caching",
+                outcome: "Scalable apps",
+                resources: [
+                    { name: "OpenAI Pricing Page", url: "https://platform.openai.com/pricing" },
+                    { name: "Blog: LLM Cost Optimization", url: "https://www.pinecone.io/learn/llm-cost/" },
+                    { name: "YouTube: Optimize LLM Apps", url: "https://www.youtube.com/watch?v=KZ9b6oFZl9g" }
+                ]
+            },
+            {
+                concept: "Fine-Tuning",
+                pattern: "Specializing models on domain data",
+                outcome: "Superior niche performance",
+                resources: [
+                    { name: "OpenAI Fine-Tuning Guide", url: "https://platform.openai.com/docs/guides/fine-tuning" },
+                    { name: "YouTube: Fine-Tuning LLMs Explained", url: "https://www.youtube.com/watch?v=eC6Hd1hFvos" },
+                    { name: "Hugging Face: Fine-Tuning Tutorial", url: "https://huggingface.co/docs/transformers/training" }
+                ]
+            },
+            {
+                concept: "Context Window Management",
+                pattern: "Summarization + Truncation strategies",
+                outcome: "Handle long conversations",
+                resources: [
+                    { name: "Anthropic: Managing Context Windows", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips" },
+                    { name: "LangChain: Memory Types", url: "https://python.langchain.com/v0.1/docs/modules/memory/" },
+                    { name: "Pinecone: Token Management", url: "https://www.pinecone.io/learn/chunking-strategies/" }
+                ]
+            },
+            {
+                concept: "Multi-Modal AI",
+                pattern: "Processing text, images, and audio",
+                outcome: "Rich sensory AI apps",
+                resources: [
+                    { name: "OpenAI Vision Documentation", url: "https://platform.openai.com/docs/guides/vision" },
+                    { name: "YouTube: Building Multi-Modal Apps", url: "https://www.youtube.com/watch?v=s7Xp0SjI5_A" },
+                    { name: "Google Gemini Multi-modal Guide", url: "https://ai.google.dev/gemini-api/docs/multimodal" }
+                ]
+            },
+            {
+                concept: "Deployment & MLOps",
+                pattern: "CI/CD for LLMs + monitoring",
+                outcome: "Reliable production cycles",
+                resources: [
+                    { name: "LangSmith Documentation", url: "https://docs.smith.langchain.com/" },
+                    { name: "YouTube: Deploying LLM Apps", url: "https://www.youtube.com/watch?v=7O4-f_A7X2s" },
+                    { name: "Blog: MLOps for Generative AI", url: "https://www.databricks.com/blog/mlops-generative-ai" }
+                ]
+            },
+            {
+                concept: "Vibe Coding",
+                pattern: "AI-assisted app building",
+                outcome: "Rapid prototypes",
+                resources: [
+                    { name: "YouTube: Build Apps with Cursor AI", url: "https://www.youtube.com/watch?v=Zq3d8l8K1mY" },
+                    { name: "Replit AI Guide", url: "https://docs.replit.com/ai" },
+                    { name: "GitHub Copilot Docs", url: "https://docs.github.com/en/copilot" }
+                ]
+            },
+            {
+                concept: "AI UX Design",
+                pattern: "Conversational flows + fallback",
+                outcome: "Usable AI apps",
+                resources: [
+                    { name: "Nielsen Norman AI UX Guidelines", url: "https://www.nngroup.com/articles/ai-ux/" },
+                    { name: "YouTube: Designing AI Products", url: "https://www.youtube.com/watch?v=V9n4z1lXvZQ" },
+                    { name: "Streamlit Chat App Tutorial", url: "https://docs.streamlit.io/develop/tutorials/chat-and-llms" }
+                ]
+            }
+        ];
+
+        const container = document.getElementById('roadmapList');
+
+        aiData.forEach((item, index) => {
+            const row = document.createElement('div');
+            row.className = 'relative flex gap-6 md:gap-8 step-line pb-12';
+            
+            row.innerHTML = `
+                <!-- Circle Number -->
+                <div class="relative z-10 flex-shrink-0">
+                    <div class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold shadow-lg border-4 border-white">
+                        ${index + 1}
+                    </div>
+                </div>
+
+                <!-- Content Card Area -->
+                <div class="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    
+                    <!-- Text Info -->
+                    <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-slate-100 pb-6 lg:pb-0 lg:pr-8">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-4">${item.concept}</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Pattern</p>
+                                <p class="text-sm text-slate-700 leading-relaxed font-medium">${item.pattern}</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1.5">Learning Goal</p>
+                                <div class="inline-block bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
+                                    <p class="text-sm text-blue-800 font-semibold">${item.outcome}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resources Panel -->
+                    <div class="lg:col-span-7 flex flex-col">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            Study Materials
+                            <span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full text-[9px] font-bold">${item.resources.length} RESOURCES</span>
+                        </p>
+                        <div class="grid grid-cols-1 gap-2">
+                            ${item.resources.map(res => `
+                                <a href="${res.url}" target="_blank" class="resource-btn group block w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:text-blue-600 flex items-center justify-between">
+                                    <span class="truncate pr-4">${res.name}</span>
+                                    <svg class="w-4 h-4 text-slate-300 group-hover:text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(row);
+        });
+    </script>
+</body>
+</html>
